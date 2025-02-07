@@ -1,7 +1,8 @@
 package org.mini.test;
 
 public class AServiceImpl implements AService {
+    String name;
     public void sayHello() {
-        System.out.println("a service 1 say hello");
+        System.out.println("Hello, " + name);
     } 
 } 
