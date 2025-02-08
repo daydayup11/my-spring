@@ -11,6 +11,8 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
         reader.loadBeanDefinitions(resource);
         this.beanFactory = beanFactory;
+        this.beanFactory.refresh();
+
     }
     //context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
     public Object getBean(String beanName) throws BeansException {
