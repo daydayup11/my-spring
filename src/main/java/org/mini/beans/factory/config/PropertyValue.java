@@ -1,4 +1,4 @@
-package org.mini.beans;
+package org.mini.beans.factory.config;
 
 public class PropertyValue {
 

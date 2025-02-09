@@ -1,4 +1,4 @@
-package org.mini.beans;
+package org.mini.beans.factory.support;
 
 public interface SingletonBeanRegistry {
     void registerSingleton(String beanName, Object singletonObject);

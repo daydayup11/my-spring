@@ -1,14 +1,20 @@
 package org.mini.test;
 
+import org.mini.beans.factory.annotation.Autowired;
+
 public class BaseService {
-    private BaseBaseService bbs;
+    @Autowired
+    private BaseBaseService baseBaseService;
+    public BaseBaseService getBbs() {
+        return baseBaseService;
+    }
+    public void setBbs(BaseBaseService bbs) {
+        this.baseBaseService = bbs;
+    }
     public BaseService() {
     }
-    public BaseBaseService getBbs() {
-        return bbs;
-    }
-
-    public void setBbs(BaseBaseService bbs) {
-        this.bbs = bbs;
+    public void sayHello() {
+        System.out.println("Base Service says Hello");
+        baseBaseService.sayHello();
     }
 }

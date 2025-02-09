@@ -6,13 +6,13 @@
         <property type="String" name="property1" value="Someone says"/>
         <property type="String" name="property2" value="Hello World!"/>
         <property type="org.mini.test.BaseService" name="ref1"
-                  ref="baseservice"/>
+                  ref="baseService"/>
     </bean>
-    <bean id="basebaseservice" class="org.mini.test.BaseBaseService">
+    <bean id="baseBaseService" class="org.mini.test.BaseBaseService">
         <property type="org.mini.test.AServiceImpl" name="as" ref="aservice" />
     </bean>
-    <bean id="baseservice" class="org.mini.test.BaseService">
-        <property type="org.mini.test.BaseBaseService" name="bbs"
-                  ref="basebaseservice" />
+    <bean id="baseService" class="org.mini.test.BaseService">
+<!--        <property type="org.mini.test.BaseBaseService" name="bbs"-->
+<!--                  ref="basebaseservice" />-->
     </bean>
 </beans>

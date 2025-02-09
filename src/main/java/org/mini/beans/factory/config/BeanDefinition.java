@@ -1,4 +1,4 @@
-package org.mini.beans;
+package org.mini.beans.factory.config;
 
 public class BeanDefinition {
     String SCOPE_SINGLETON = "singleton";
@@ -6,7 +6,7 @@ public class BeanDefinition {
 
     private boolean lazyInit = true;
     private String[] dependsOn;
-    private ArgumentValues constructorArgumentValues;
+    private ConstructorArgumentValues constructorArgumentValues;
 
     private PropertyValues propertyValues;
     private String initMethodName;
@@ -39,6 +39,13 @@ public class BeanDefinition {
     public boolean isLazyInit() {
         return lazyInit;
     }
+    public boolean isSingleton() {
+        return SCOPE_SINGLETON.equals(scope);
+    }
+
+    public boolean isPrototype() {
+        return SCOPE_PROTOTYPE.equals(scope);
+    }
 
     public void setLazyInit(boolean lazyInit) {
         this.lazyInit = lazyInit;
@@ -52,11 +59,11 @@ public class BeanDefinition {
         this.dependsOn = dependsOn;
     }
 
-    public ArgumentValues getConstructorArgumentValues() {
+    public ConstructorArgumentValues getConstructorArgumentValues() {
         return constructorArgumentValues;
     }
 
-    public void setConstructorArgumentValues(ArgumentValues constructorArgumentValues) {
+    public void setConstructorArgumentValues(ConstructorArgumentValues constructorArgumentValues) {
         this.constructorArgumentValues = constructorArgumentValues;
     }
 

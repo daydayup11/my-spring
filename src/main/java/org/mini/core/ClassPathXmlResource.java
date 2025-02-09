@@ -1,4 +1,4 @@
-package org.mini.beans;
+package org.mini.core;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

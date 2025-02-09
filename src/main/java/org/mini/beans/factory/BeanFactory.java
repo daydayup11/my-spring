@@ -1,4 +1,6 @@
-package org.mini.beans;
+package org.mini.beans.factory;
+
+import org.mini.beans.factory.support.BeansException;
 
 public interface BeanFactory {
     Object getBean(String beanName) throws BeansException;
