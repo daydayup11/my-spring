@@ -2,11 +2,13 @@ package org.mini.context;
 
 import org.mini.beans.factory.BeanFactory;
 import org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.mini.beans.factory.config.AutowireCapableBeanFactory;
+import org.mini.beans.factory.annotation.RequiredAnnotationBeanPostProcessor;
+import org.mini.beans.factory.config.AbstractAutowireCapableBeanFactory;
+import org.mini.beans.factory.config.BeanFactoryPostProcessor;
 import org.mini.beans.factory.config.BeanPostProcessor;
-import org.mini.beans.factory.support.AbstractBeanFactory;
+import org.mini.beans.factory.config.ConfigurableListableBeanFactory;
 import org.mini.beans.factory.support.BeansException;
-import org.mini.beans.factory.support.SimpleBeanFactory;
+import org.mini.beans.factory.support.DefaultListableBeanFactory;
 import org.mini.beans.factory.xml.XmlBeanDefinitionReader;
 import org.mini.core.ClassPathXmlResource;
 import org.mini.core.Resource;
@@ -14,18 +16,24 @@ import org.mini.core.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEventPublisher {
-    AutowireCapableBeanFactory beanFactory;
-    private final List<BeanPostProcessor> beanFactoryPostProcessors =
-            new ArrayList<BeanPostProcessor>();
-    //context负责整合容器的启动过程，读外部配置，解析Bean定义，创建BeanFactory
-    public ClassPathXmlApplicationContext(String fileName,boolean isRefresh) {
-        Resource resource = new ClassPathXmlResource(fileName);
-        AutowireCapableBeanFactory beanFactory = new AutowireCapableBeanFactory();
-        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-        reader.loadBeanDefinitions(resource);
-        this.beanFactory = beanFactory;
-        if (isRefresh){
+public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
+
+    DefaultListableBeanFactory beanFactory;
+    private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors =
+            new ArrayList<BeanFactoryPostProcessor>();
+
+    public ClassPathXmlApplicationContext(String fileName){
+        this(fileName, true);
+    }
+    public ClassPathXmlApplicationContext(String fileName, boolean isRefresh){
+        Resource res = new ClassPathXmlResource(fileName);
+        DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
+        reader.loadBeanDefinitions(res);
+
+        this.beanFactory = bf;
+
+        if (isRefresh) {
             try {
                 refresh();
             } catch (IllegalStateException e) {
@@ -35,58 +43,53 @@ public class ClassPathXmlApplicationContext implements BeanFactory,ApplicationEv
             }
         }
     }
-
-    /**
-     * 添加BeanFactory后置处理器
-     * @param postProcessor
-     */
-    public void addBeanFactoryPostProcessor(BeanPostProcessor postProcessor) { this.beanFactoryPostProcessors.add(postProcessor); }
-
-    /**
-     * 启动容器
-     * @throws IllegalStateException
-     * @throws BeansException
-     */
-    public void refresh() throws IllegalStateException, BeansException {
-        registerBeanPostProcessor(beanFactory);
-        beanFactory.refresh();
-    }
-    private void registerBeanPostProcessor(AutowireCapableBeanFactory beanFactory) {
-        beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
-    }
-    public void registerBean(String beanName, Object obj) {
-        this.beanFactory.registerBean(beanName, obj);
-    }
-
-    //context再对外提供一个getBean，底下就是调用的BeanFactory对应的方法
-    public Object getBean(String beanName) throws BeansException {
-        return this.beanFactory.getBean(beanName);
+    @Override
+    void registerListeners() {
+        // 注册事件监听器, 这里只是简单地注册一个监听器，实际应用中可以注册多个监听器
+        ApplicationListener listener = new ApplicationListener();
+        this.getApplicationEventPublisher().addApplicationListener(listener);
     }
 
     @Override
-    public boolean containsBean(String name) {
-        return this.beanFactory.containsBean(name);
+    void initApplicationEventPublisher() {
+        // 创建事件发布器，并设置到ApplicationContext中
+        ApplicationEventPublisher aep = new SimpleApplicationEventPublisher();
+        this.setApplicationEventPublisher(aep);
     }
 
     @Override
-    public boolean isSingleton(String name) {
-        return false;
+    void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
+
     }
 
     @Override
-    public boolean isPrototype(String name) {
-        return false;
+    void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
+        this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
+        this.beanFactory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
     }
 
     @Override
-    public Class<?> getType(String name) {
-        return null;
+    void onRefresh() {
+        this.beanFactory.refresh();
+    }
+
+    @Override
+    void finishRefresh() {
+        publishEvent(new ContextRefreshEvent("Context Refreshed..."));
+    }
+
+    @Override
+    public ConfigurableListableBeanFactory getBeanFactory() throws IllegalStateException {
+        return this.beanFactory;
     }
 
     @Override
     public void publishEvent(ApplicationEvent event) {
-
+        this.getApplicationEventPublisher().publishEvent(event);
     }
 
-    public List getBeanFactoryPostProcessors() { return this.beanFactoryPostProcessors; }
+    @Override
+    public void addApplicationListener(ApplicationListener listener) {
+        this.getApplicationEventPublisher().addApplicationListener(listener);
+    }
 }

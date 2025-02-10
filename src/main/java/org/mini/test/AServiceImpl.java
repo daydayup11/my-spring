@@ -1,9 +1,11 @@
 package org.mini.test;
 
+import org.mini.beans.factory.annotation.Required;
 import org.mini.test.AService;
 import org.mini.test.BaseService;
 
 public class AServiceImpl implements AService {
+    @Required
     private String name;
     private int level;
     private String property1;

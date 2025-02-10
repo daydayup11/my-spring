@@ -3,7 +3,6 @@ package org.mini.beans.factory.xml;
 import org.dom4j.Element;
 import org.mini.beans.factory.config.*;
 import org.mini.beans.factory.support.AbstractBeanFactory;
-import org.mini.beans.factory.support.SimpleBeanFactory;
 import org.mini.core.Resource;
 
 import java.util.ArrayList;
