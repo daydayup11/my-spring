@@ -19,6 +19,16 @@
             <artifactId>dom4j</artifactId>
             <version>1.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>9.0.99</version> <!-- 使用最新版本 -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>9.0.99</version> <!-- 用于支持 JSP -->
+        </dependency>
     </dependencies>
 
 </project>

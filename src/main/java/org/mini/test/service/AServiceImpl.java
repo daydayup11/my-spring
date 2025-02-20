@@ -1,8 +1,6 @@
-package org.mini.test;
+package org.mini.test.service;
 
 import org.mini.beans.factory.annotation.Required;
-import org.mini.test.AService;
-import org.mini.test.BaseService;
 
 public class AServiceImpl implements AService {
     @Required

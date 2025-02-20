@@ -1,4 +1,4 @@
-package org.mini.test;
+package org.mini.test.service;
 
 import org.mini.beans.factory.annotation.Autowired;
 
@@ -16,5 +16,8 @@ public class BaseService {
     public void sayHello() {
         System.out.println("Base Service says Hello");
         baseBaseService.sayHello();
+    }
+    public String getHello() {
+        return "Base Service get Hello.";
     }
 }
