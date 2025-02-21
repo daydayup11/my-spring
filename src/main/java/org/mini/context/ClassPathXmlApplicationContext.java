@@ -44,37 +44,37 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
         }
     }
     @Override
-    void registerListeners() {
+    public void registerListeners() {
         // 注册事件监听器, 这里只是简单地注册一个监听器，实际应用中可以注册多个监听器
         ApplicationListener listener = new ApplicationListener();
         this.getApplicationEventPublisher().addApplicationListener(listener);
     }
 
     @Override
-    void initApplicationEventPublisher() {
+    public void initApplicationEventPublisher() {
         // 创建事件发布器，并设置到ApplicationContext中
         ApplicationEventPublisher aep = new SimpleApplicationEventPublisher();
         this.setApplicationEventPublisher(aep);
     }
 
     @Override
-    void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
 
     }
 
     @Override
-    void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
+    public void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
         this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
         this.beanFactory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
     }
 
     @Override
-    void onRefresh() {
+    public void onRefresh() {
         this.beanFactory.refresh();
     }
 
     @Override
-    void finishRefresh() {
+    public void finishRefresh() {
         publishEvent(new ContextRefreshEvent("Context Refreshed..."));
     }
 

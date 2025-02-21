@@ -5,8 +5,8 @@ import org.mini.test.service.BaseService;
 import org.mini.web.RequestMapping;
 
 public class HelloWorldBean {
-//  @Autowired
-//  BaseService baseservice;
+  @Autowired
+  BaseService baseService;
 
   @RequestMapping("/test1")
   public String doTest1() {
@@ -16,8 +16,8 @@ public class HelloWorldBean {
   public String doTest2() {
     return "test 2, hello world!";
   }
-//  @RequestMapping("/test3")
-//  public String doTest3() {
-//    return baseservice.getHello();
-//  }
+  @RequestMapping("/test3")
+  public String doTest3() {
+    return baseService.getHello();
+  }
 }

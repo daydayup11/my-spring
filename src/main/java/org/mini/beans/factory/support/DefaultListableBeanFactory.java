@@ -4,12 +4,11 @@ import org.mini.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import org.mini.beans.factory.config.BeanDefinition;
 import org.mini.beans.factory.config.ConfigurableListableBeanFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements ConfigurableListableBeanFactory {
+    ConfigurableListableBeanFactory parentBeanFctory;
+
     @Override
     public int getBeanDefinitionCount() {
         return this.beanDefinitionMap.size();
@@ -17,7 +16,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public String[] getBeanDefinitionNames() {
-        return (String[]) this.beanDefinitionNames.toArray();
+        return Arrays.copyOf(this.beanDefinitionNames.toArray(), this.beanDefinitionNames.size(), String[].class);
     }
 
     @Override
@@ -58,5 +57,27 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
             result.put(beanName, (T) beanInstance);
         }
         return result;
+    }
+
+    public void setParent(ConfigurableListableBeanFactory beanFactory) {
+        this.parentBeanFctory = beanFactory;
+    }
+
+    @Override
+    public Object getBean(String beanName) throws BeansException{
+        // 1. 尝试从当前 BeanFactory 中获取 Bean
+        Object result = super.getBean(beanName);
+        if (result != null) {
+            return result;
+        }
+
+        // 2. 如果当前 BeanFactory 中没有找到，尝试从父 BeanFactory 中获取
+        if (this.parentBeanFctory != null) {
+                result = this.parentBeanFctory.getBean(beanName);
+                return result;
+        }
+
+        // 3. 如果当前和父 BeanFactory 中都没有找到，抛出 NoSuchBeanDefinitionException
+        throw new BeansException("No bean named '" + beanName + "' found in both current and parent BeanFactory");
     }
 }
