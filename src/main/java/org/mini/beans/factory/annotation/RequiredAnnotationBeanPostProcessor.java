@@ -1,12 +1,8 @@
 package org.mini.beans.factory.annotation;
 
-import org.mini.beans.factory.BeanFactory;
 import org.mini.beans.factory.config.BeanPostProcessor;
+import org.mini.beans.BeanFactory;
 import org.mini.beans.factory.support.BeansException;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class RequiredAnnotationBeanPostProcessor implements BeanPostProcessor {
 	private BeanFactory beanFactory;

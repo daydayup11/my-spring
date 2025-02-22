@@ -1,11 +1,8 @@
 package org.mini.context;
 
-import org.mini.beans.factory.BeanFactory;
 import org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.mini.beans.factory.annotation.RequiredAnnotationBeanPostProcessor;
-import org.mini.beans.factory.config.AbstractAutowireCapableBeanFactory;
 import org.mini.beans.factory.config.BeanFactoryPostProcessor;
-import org.mini.beans.factory.config.BeanPostProcessor;
 import org.mini.beans.factory.config.ConfigurableListableBeanFactory;
 import org.mini.beans.factory.support.BeansException;
 import org.mini.beans.factory.support.DefaultListableBeanFactory;

@@ -1,6 +1,5 @@
 package org.mini.beans.factory.config;
 
-import org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.mini.beans.factory.support.AbstractBeanFactory;
 import org.mini.beans.factory.support.BeansException;
 

@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.mini.beans.factory.config.PropertyValue;
-import org.mini.beans.factory.config.PropertyValues;
+
 import org.mini.beans.factory.config.*;
 
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory,BeanDefinitionRegistry{

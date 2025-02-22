@@ -15,4 +15,6 @@
 <!--        <property type="org.mini.test.service.BaseBaseService" name="bbs"-->
 <!--                  ref="basebaseservice" />-->
     </bean>
+    <bean id="webBindingInitializer" class="org.mini.test.DateInitializer">
+    </bean>
 </beans>

@@ -1,4 +1,4 @@
-package org.mini.beans.factory;
+package org.mini.beans;
 
 import org.mini.beans.factory.support.BeansException;
 
