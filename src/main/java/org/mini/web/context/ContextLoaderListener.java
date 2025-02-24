@@ -1,4 +1,6 @@
-package org.mini.web;
+package org.mini.web.context;
+
+import org.mini.web.context.support.XmlWebApplicationContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;

@@ -1,4 +1,4 @@
-package org.mini.web;
+package org.mini.web.context;
 
 import org.mini.context.ApplicationContext;
 

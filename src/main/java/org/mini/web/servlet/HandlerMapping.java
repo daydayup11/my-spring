@@ -1,6 +1,6 @@
 package org.mini.web.servlet;
 
-import org.mini.web.servlet.HandlerMethod;
+import org.mini.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 

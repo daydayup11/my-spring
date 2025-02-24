@@ -1,4 +1,4 @@
-package org.mini;
+package org.mini.beans;
 
 import org.mini.beans.PropertyEditor;
 

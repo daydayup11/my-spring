@@ -1,7 +1,7 @@
 package org.mini.test;
 
-import org.mini.web.WebBindingInitializer;
-import org.mini.web.WebDataBinder;
+import org.mini.web.bind.support.WebBindingInitializer;
+import org.mini.web.bind.WebDataBinder;
 
 import java.util.Date;
 

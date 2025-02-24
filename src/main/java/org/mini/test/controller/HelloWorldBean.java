@@ -3,7 +3,11 @@ package org.mini.test.controller;
 import org.mini.beans.factory.annotation.Autowired;
 import org.mini.test.entity.User;
 import org.mini.test.service.BaseService;
-import org.mini.web.RequestMapping;
+import org.mini.web.bind.annotation.RequestMapping;
+import org.mini.web.bind.annotation.ResponseBody;
+import org.mini.web.servlet.ModelAndView;
+
+import java.util.Date;
 
 public class HelloWorldBean {
   @Autowired
@@ -27,8 +31,21 @@ public class HelloWorldBean {
   }
 
   @RequestMapping("/test5")
-  public String doTest5(Integer id) {
-    return id +"";
+  public ModelAndView doTest5(User user) {
+    ModelAndView mav = new ModelAndView("test","msg",user.getName());
+    return mav;
+  }
+  @RequestMapping("/test6")
+  public String doTest6(User user) {
+    return "error";
+  }
+
+  @RequestMapping("/test7")
+  @ResponseBody
+  public User doTest7(User user) {
+    user.setName(user.getName() + "---");
+    user.setBirthday(new Date());
+    return user;
   }
 
 }

@@ -1,4 +1,4 @@
-package org.mini.web.servlet;
+package org.mini.web.method;
 
 import com.sun.org.apache.bcel.internal.classfile.MethodParameter;
 

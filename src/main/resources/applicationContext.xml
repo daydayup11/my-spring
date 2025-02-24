@@ -17,4 +17,26 @@
     </bean>
     <bean id="webBindingInitializer" class="org.mini.test.DateInitializer">
     </bean>
+    
+    <bean id="handlerAdapter" class="org.mini.web.method.annotation.RequestMappingHandlerAdapter">
+        <property type="org.mini.converter.HttpMessageConverter" name="messageConverter" ref="messageConverter"/>
+        <property type="org.mini.web.bind.support.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
+    </bean>
+
+    <bean id="handlerMapping" class="org.mini.web.method.annotation.RequestMappingHandlerMapping"/>
+
+
+    <bean id="viewResolver" class="org.mini.web.servlet.view.InternalResourceViewResolver" >
+        <property type="String" name="viewClassName" value="org.mini.web.servlet.view.JstlView" />
+        <property type="String" name="prefix" value="/jsp/" />
+        <property type="String" name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="messageConverter" class="org.mini.converter.DefaultHttpMessageConverter">
+        <property type="org.mini.util.ObjectMapper" name="objectMapper" ref="objectMapper"/>
+    </bean>
+    <bean id="objectMapper" class="org.mini.util.DefaultObjectMapper" >
+        <property type="String" name="dateFormat" value="yyyy/MM/dd"/>
+        <property type="String" name="decimalFormat" value="###.##"/>
+    </bean>
 </beans>

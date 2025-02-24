@@ -1,22 +1,22 @@
-package org.mini.web.servlet;
+package org.mini.web.method.annotation;
 
 import org.mini.beans.factory.support.BeansException;
-import org.mini.web.RequestMapping;
-import org.mini.web.WebApplicationContext;
+import org.mini.context.ApplicationContext;
+import org.mini.context.ApplicationContextAware;
+import org.mini.web.bind.annotation.RequestMapping;
+import org.mini.web.context.WebApplicationContext;
+import org.mini.web.servlet.HandlerMapping;
+import org.mini.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
-public class RequestMappingHandlerMapping implements HandlerMapping{
+public class RequestMappingHandlerMapping implements HandlerMapping, ApplicationContextAware {
     WebApplicationContext wac;
-    private final MappingRegistry mappingRegistry = new MappingRegistry();
+    private  MappingRegistry mappingRegistry ;
 
-    public RequestMappingHandlerMapping(WebApplicationContext wac) {
-        this.wac = wac;
-
-        initMapping();
+    public RequestMappingHandlerMapping() {
     }
-
     protected void initMapping() {
         Class<?> clz = null;
         Object obj = null;
@@ -52,6 +52,10 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
 
     @Override
     public HandlerMethod getHandler(HttpServletRequest request) throws Exception {
+        if (this.mappingRegistry == null) { //to do initialization
+            this.mappingRegistry = new MappingRegistry();
+            initMapping();
+        }
         String sPath = request.getServletPath();
 
         if (!this.mappingRegistry.getUrlMappingNames().contains(sPath)) {
@@ -63,5 +67,10 @@ public class RequestMappingHandlerMapping implements HandlerMapping{
         HandlerMethod handlerMethod = new HandlerMethod(method, obj);
 
         return handlerMethod;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.wac = (WebApplicationContext) applicationContext;
     }
 }

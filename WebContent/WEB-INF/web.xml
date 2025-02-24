@@ -6,7 +6,7 @@
   </context-param>
   <listener>
     <listener-class>
-      org.mini.web.ContextLoaderListener
+        org.mini.web.context.ContextLoaderListener
     </listener-class>
   </listener>
   <servlet>

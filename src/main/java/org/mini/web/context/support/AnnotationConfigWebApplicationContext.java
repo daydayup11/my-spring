@@ -1,4 +1,4 @@
-package org.mini.web;
+package org.mini.web.context.support;
 
 import org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.mini.beans.factory.config.BeanDefinition;
@@ -7,6 +7,7 @@ import org.mini.beans.factory.config.ConfigurableListableBeanFactory;
 import org.mini.beans.factory.support.BeansException;
 import org.mini.beans.factory.support.DefaultListableBeanFactory;
 import org.mini.context.*;
+import org.mini.web.context.WebApplicationContext;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -17,7 +18,7 @@ import java.util.List;
 
 //加载controller
 public class AnnotationConfigWebApplicationContext
-		extends AbstractApplicationContext implements WebApplicationContext{
+		extends AbstractApplicationContext implements WebApplicationContext {
 	private WebApplicationContext parentApplicationContext;
 	private ServletContext servletContext;
 	DefaultListableBeanFactory beanFactory;

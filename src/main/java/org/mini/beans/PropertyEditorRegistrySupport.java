@@ -1,7 +1,5 @@
 package org.mini.beans;
 
-import org.mini.StringEditor;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
