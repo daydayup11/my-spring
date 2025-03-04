@@ -15,9 +15,14 @@
 <!--        <property type="org.mini.test.service.BaseBaseService" name="bbs"-->
 <!--                  ref="basebaseservice" />-->
     </bean>
+
+
+    <bean id="autowiredAnnotationBeanPostProcessor" class="org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+    <bean id="requiredAnnotationBeanPostProcessor" class="org.mini.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
     <bean id="webBindingInitializer" class="org.mini.test.DateInitializer">
     </bean>
-    
+
     <bean id="handlerAdapter" class="org.mini.web.method.annotation.RequestMappingHandlerAdapter">
         <property type="org.mini.converter.HttpMessageConverter" name="messageConverter" ref="messageConverter"/>
         <property type="org.mini.web.bind.support.WebBindingInitializer" name="webBindingInitializer" ref="webBindingInitializer"/>
@@ -39,4 +44,16 @@
         <property type="String" name="dateFormat" value="yyyy/MM/dd"/>
         <property type="String" name="decimalFormat" value="###.##"/>
     </bean>
+
+    <bean id="jdbcTemplate" class="org.mini.jdbc.core.JdbcTemplate" >
+        <property type="javax.sql.DataSource" name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="dataSource" class="org.mini.jdbc.datasource.SingleConnectionDataSource">
+        <property type="String" name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+        <property type="String" name="url" value="jdbc:sqlserver://localhost:1433;databasename=DEMO;"/>
+        <property type="String" name="username" value="sa"/>
+        <property type="String" name="password" value="Sql2016"/>
+    </bean>
+
 </beans>

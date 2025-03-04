@@ -57,6 +57,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext{
 	
 	
 	public void refresh() throws BeansException, IllegalStateException {
+
 		postProcessBeanFactory(getBeanFactory());
 		
 		registerBeanPostProcessors(getBeanFactory());

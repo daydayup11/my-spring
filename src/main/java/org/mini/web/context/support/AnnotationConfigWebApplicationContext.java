@@ -122,8 +122,19 @@ public class AnnotationConfigWebApplicationContext
 
 	@Override
 	public void registerListeners() {
-		ApplicationListener listener = new ApplicationListener();
-		this.getApplicationEventPublisher().addApplicationListener(listener);
+		String[] bdNames = this.beanFactory.getBeanDefinitionNames();
+		for (String bdName : bdNames) {
+			Object bean = null;
+			try {
+				bean = getBean(bdName);
+			} catch (BeansException e1) {
+				e1.printStackTrace();
+			}
+
+			if (bean instanceof ApplicationListener) {
+				this.getApplicationEventPublisher().addApplicationListener((ApplicationListener<?>) bean);
+			}
+		}
 	}
 
 	@Override

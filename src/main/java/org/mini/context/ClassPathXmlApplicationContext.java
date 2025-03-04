@@ -1,8 +1,8 @@
 package org.mini.context;
 
-import org.mini.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
-import org.mini.beans.factory.annotation.RequiredAnnotationBeanPostProcessor;
+import org.mini.beans.factory.config.BeanDefinition;
 import org.mini.beans.factory.config.BeanFactoryPostProcessor;
+import org.mini.beans.factory.config.BeanPostProcessor;
 import org.mini.beans.factory.config.ConfigurableListableBeanFactory;
 import org.mini.beans.factory.support.BeansException;
 import org.mini.beans.factory.support.DefaultListableBeanFactory;
@@ -42,9 +42,22 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     }
     @Override
     public void registerListeners() {
-        // 注册事件监听器, 这里只是简单地注册一个监听器，实际应用中可以注册多个监听器
-        ApplicationListener listener = new ApplicationListener();
-        this.getApplicationEventPublisher().addApplicationListener(listener);
+//        // 注册事件监听器, 这里只是简单地注册一个监听器，实际应用中可以注册多个监听器
+//        ApplicationListener listener = new ApplicationListener();
+//        this.getApplicationEventPublisher().addApplicationListener(listener);
+        String[] bdNames = this.beanFactory.getBeanDefinitionNames();
+        for (String bdName : bdNames) {
+            Object bean = null;
+            try {
+                bean = getBean(bdName);
+            } catch (BeansException e1) {
+                e1.printStackTrace();
+            }
+
+            if (bean instanceof ApplicationListener) {
+                this.getApplicationEventPublisher().addApplicationListener((ApplicationListener<?>) bean);
+            }
+        }
     }
 
     @Override
@@ -56,13 +69,59 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory bf) {
-
+        String[] bdNames = this.beanFactory.getBeanDefinitionNames();
+        for (String bdName : bdNames) {
+            BeanDefinition bd = this.beanFactory.getBeanDefinition(bdName);
+            String clzName = bd.getClassName();
+            Class<?> clz = null;
+            try {
+                clz = Class.forName(clzName);
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            if (BeanFactoryPostProcessor.class.isAssignableFrom(clz)) {
+                try {
+                    this.beanFactoryPostProcessors.add((BeanFactoryPostProcessor) clz.newInstance());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        for (BeanFactoryPostProcessor processor : this.beanFactoryPostProcessors) {
+            try {
+                processor.postProcessBeanFactory(bf);
+            } catch (BeansException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
-        this.beanFactory.addBeanPostProcessor(new AutowiredAnnotationBeanPostProcessor());
-        this.beanFactory.addBeanPostProcessor(new RequiredAnnotationBeanPostProcessor());
+    public
+    void registerBeanPostProcessors(ConfigurableListableBeanFactory bf) {
+        String[] bdNames = this.beanFactory.getBeanDefinitionNames();
+        for (String bdName : bdNames) {
+            BeanDefinition bd = this.beanFactory.getBeanDefinition(bdName);
+            String clzName = bd.getClassName();
+            Class<?> clz = null;
+            try {
+                clz = Class.forName(clzName);
+            } catch (ClassNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            if (BeanPostProcessor.class.isAssignableFrom(clz)) {
+                try {
+                    this.beanFactory.addBeanPostProcessor((BeanPostProcessor) clz.newInstance());
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
