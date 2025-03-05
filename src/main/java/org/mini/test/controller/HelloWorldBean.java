@@ -3,15 +3,20 @@ package org.mini.test.controller;
 import org.mini.beans.factory.annotation.Autowired;
 import org.mini.test.entity.User;
 import org.mini.test.service.BaseService;
+import org.mini.test.service.UserService;
 import org.mini.web.bind.annotation.RequestMapping;
 import org.mini.web.bind.annotation.ResponseBody;
 import org.mini.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 public class HelloWorldBean {
   @Autowired
   BaseService baseService;
+  @Autowired
+  UserService userService;
 
   @RequestMapping("/test1")
   public String doTest1() {
@@ -46,6 +51,12 @@ public class HelloWorldBean {
     user.setName(user.getName() + "---");
     user.setBirthday(new Date());
     return user;
+  }
+  @RequestMapping("/test8")
+  @ResponseBody
+  public User doTest8(User user) {
+    User users = userService.getUserInfo(user.getId());
+    return users;
   }
 
 }
