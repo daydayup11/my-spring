@@ -56,23 +56,9 @@ public class JdbcTemplate {
 			con = dataSource.getConnection();
 
 			pstmt = con.prepareStatement(sql);
-			if (args != null) {
-				for (int i = 0; i < args.length; i++) {
-					Object arg = args[i];
-					if (arg instanceof String) {
-						pstmt.setString(i+1, (String)arg);
-					}
-					else if (arg instanceof Integer) {
-						pstmt.setInt(i+1, (int)arg);
-					}
-					else if (arg instanceof java.util.Date) {
-						pstmt.setDate(i+1, new java.sql.Date(((java.util.Date)arg).getTime()));
-						
-					}
-				}
-			}
-			
-			
+			ArgumentPreparedStatementSetter argumentSet = new ArgumentPreparedStatementSetter(args);
+			argumentSet.setValues(pstmt);
+
 			return pstmtcallback.doInPreparedStatement(pstmt);
 		}
 		catch (Exception e) {
@@ -119,5 +105,51 @@ public class JdbcTemplate {
 		}
 
 		return null;
+	}
+
+	//delete
+	public int delete(String sql, Object[] args, PreparedStatementCallback pstmtcallback) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			ArgumentPreparedStatementSetter argumentSetter = new ArgumentPreparedStatementSetter(args);
+			argumentSetter.setValues(pstmt);
+			return (int) pstmtcallback.doInPreparedStatement(pstmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				con.close();
+			} catch (Exception e) {
+
+			}
+		}
+		return 0;
+	}
+	public int update(String sql, Object[] args, PreparedStatementCallback pstmtcallback) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		try {
+			con = dataSource.getConnection();
+			pstmt = con.prepareStatement(sql);
+			ArgumentPreparedStatementSetter argumentSetter = new ArgumentPreparedStatementSetter(args);
+			argumentSetter.setValues(pstmt);
+			return (int) pstmtcallback.doInPreparedStatement(pstmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				pstmt.close();
+				con.close();
+			} catch (Exception e) {
+
+			}
+		}
+		return 0;
+
 	}
 }

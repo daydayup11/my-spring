@@ -58,5 +58,20 @@ public class HelloWorldBean {
     User users = userService.getUserInfo(user.getId());
     return users;
   }
-
+  @RequestMapping("/test9")
+  @ResponseBody
+  public User doTest9(User user) {
+    User users = userService.getUserInfoBatis(user.getId());
+    return users;
+  }
+  @RequestMapping("/test10")
+  @ResponseBody
+  public int doTest10(User user) {
+    return userService.deleteUserInfoBatis(user.getId());
+  }
+  @RequestMapping("/test11")
+  @ResponseBody
+  public int doTest11(User user) {
+    return userService.updateUserInfoBatis(user.getId(), user.getName());
+  }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="org.mini.test.entity.User">
+    <select id="getUserInfo" parameterType="java.lang.Integer" resultType="org.mini.test.entity.User" sqlType="0">
+        select id, name,birthday
+        from user
+        where id=?
+    </select>
+    <select id="deleteUser" parameterType="java.lang.Integer" resultType="org.mini.test.entity.User" sqlType="1">
+        delete from user where id=?
+    </select>
+    <select id="updateUser" parameterType="java.lang.Integer" resultType="org.mini.test.entity.User" sqlType="2">
+        update user set name=? where id=?
+    </select>
+</mapper>

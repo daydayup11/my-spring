@@ -47,13 +47,22 @@
     </bean>
 
     <bean id="jdbcTemplate" class="org.mini.jdbc.core.JdbcTemplate" >
-        <property type="javax.sql.DataSource" name="dataSource" ref="dataSource"/>
+        <property type="javax.sql.DataSource" name="dataSource" ref="readDataSource"/>
     </bean>
-    <bean id="dataSource" class="org.mini.jdbc.pool.PooledDataSource">
+    <bean id="writeDataSource" class="org.mini.jdbc.pool.PooledDataSource">
         <property name="url" value="jdbc:mysql://localhost:3306/test"/>
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="username" value="root"/>
         <property type="int" name="initialSize" value="3"/>
+    </bean>
+    <bean id="readDataSource" class="org.mini.jdbc.pool.PooledDataSource">
+        <property name="url" value="jdbc:mysql://localhost:3306/test"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property type="int" name="initialSize" value="3"/>
+    </bean>
+    <bean id="sqlSessionFactory" class="org.mini.batis.DefaultSqlSessionFactory" init-method="init">
+        <property type="String" name="mapperLocations" value="mapper"></property>
     </bean>
 
 </beans>
