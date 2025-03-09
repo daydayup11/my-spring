@@ -1,7 +1,7 @@
 package org.mini.beans.factory.annotation;
 
 import org.mini.beans.factory.config.BeanPostProcessor;
-import org.mini.beans.BeanFactory;
+import org.mini.beans.factory.BeanFactory;
 import org.mini.beans.factory.support.BeansException;
 
 public class RequiredAnnotationBeanPostProcessor implements BeanPostProcessor {

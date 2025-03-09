@@ -1,7 +1,7 @@
 package org.mini.beans.factory.config;
 
 import org.mini.beans.factory.support.SingletonBeanRegistry;
-import org.mini.beans.BeanFactory;
+import org.mini.beans.factory.BeanFactory;
 
 /**
  * 作用：可配置的BeanFactory，可以添加BeanPostProcessor，可以注册依赖关系

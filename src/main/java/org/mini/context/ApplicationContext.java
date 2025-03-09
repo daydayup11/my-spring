@@ -1,7 +1,7 @@
 package org.mini.context;
 
 
-import org.mini.beans.ListableBeanFactory;
+import org.mini.beans.factory.ListableBeanFactory;
 import org.mini.beans.factory.config.BeanFactoryPostProcessor;
 import org.mini.beans.factory.config.ConfigurableBeanFactory;
 import org.mini.beans.factory.config.ConfigurableListableBeanFactory;

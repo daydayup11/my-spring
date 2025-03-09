@@ -3,6 +3,7 @@ package org.mini.test.controller;
 import org.mini.beans.factory.annotation.Autowired;
 import org.mini.test.entity.User;
 import org.mini.test.service.BaseService;
+import org.mini.test.service.IAction;
 import org.mini.test.service.UserService;
 import org.mini.web.bind.annotation.RequestMapping;
 import org.mini.web.bind.annotation.ResponseBody;
@@ -10,6 +11,7 @@ import org.mini.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 
 public class HelloWorldBean {
@@ -17,6 +19,8 @@ public class HelloWorldBean {
   BaseService baseService;
   @Autowired
   UserService userService;
+  @Autowired
+  IAction action;
 
   @RequestMapping("/test1")
   public String doTest1() {
@@ -73,5 +77,14 @@ public class HelloWorldBean {
   @ResponseBody
   public int doTest11(User user) {
     return userService.updateUserInfoBatis(user.getId(), user.getName());
+  }
+  @RequestMapping("/testaop")
+  public void doTestAop() {
+
+    //DynamicProxy proxy = new DynamicProxy(action);
+    //IAction p = (IAction)proxy.getProxy();
+    System.out.println("action -------------- " + action + "----------------");
+
+    action.doAction();
   }
 }

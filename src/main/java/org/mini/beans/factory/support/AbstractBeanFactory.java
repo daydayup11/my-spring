@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.mini.beans.factory.FactoryBean;
 import org.mini.beans.factory.config.*;
 
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory,BeanDefinitionRegistry{
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport implements ConfigurableBeanFactory,BeanDefinitionRegistry{
     protected Map<String, BeanDefinition> beanDefinitionMap=new ConcurrentHashMap<>(256);
     protected List<String> beanDefinitionNames=new ArrayList<>();
 	private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
@@ -62,8 +63,28 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 			}
 
 		}
+		//process Factory Bean
+		if (singleton instanceof FactoryBean) {
+			System.out.println("factory bean -------------- " + beanName + "----------------"+singleton);
+			return this.getObjectForBeanInstance(singleton, beanName);
+		}
+		else {
+			System.out.println("normal bean -------------- " + beanName + "----------------"+singleton);
+
+		}
         return singleton;
     }
+	protected Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
+		if (!(beanInstance instanceof FactoryBean)) {
+			return beanInstance;
+		}
+
+		Object object = null;
+		FactoryBean<?> factory = (FactoryBean<?>) beanInstance;
+		object = getObjectFromFactoryBean(factory, beanName);
+		return object;
+	}
     
     private void invokeInitMethod(BeanDefinition bd, Object obj) {
     	Class<?> clz = obj.getClass();
