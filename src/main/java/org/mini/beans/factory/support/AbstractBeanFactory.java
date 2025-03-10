@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.mini.beans.factory.BeanFactoryAware;
 import org.mini.beans.factory.FactoryBean;
 import org.mini.beans.factory.config.*;
 
@@ -42,6 +43,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (bd != null) {
 					singleton=createBean(bd);
 					this.registerBean(beanName, singleton);
+					if (singleton instanceof BeanFactoryAware) {
+						((BeanFactoryAware) singleton).setBeanFactory(this);
+					}
 
 					//beanpostprocessor
 					//step 1 : postProcessBeforeInitialization
