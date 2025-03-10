@@ -69,7 +69,8 @@
 <!--        <property type="java.lang.Object" name="target" ref="realaction"/>-->
 <!--        <property type="String" name="interceptorName" value="myInterceptor"/>-->
 <!--    </bean>-->
-    <bean id="realaction" class="org.mini.test.service.Action1" />
+    <bean id="action1" class="org.mini.test.service.Action1" />
+    <bean id="action2" class="org.mini.test.service.Action2" />
     <bean id="myInterceptor" class="org.mini.test.service.MyInterceptor" />
     <bean id="myBeforeAdvice" class="org.mini.test.service.MyBeforeAdvice" />
 
@@ -77,11 +78,16 @@
         <property type="org.mini.aop.Advice" name="advice" ref="myBeforeAdvice"/>
         <property type="String" name="mappedName" value="do*"/>
     </bean>
-
-    <bean id="action" class="org.mini.aop.ProxyFactoryBean">
+    <bean id="autoProxyCreator" class="org.mini.aop.BeanNameAutoProxyCreator" >
+        <property type="String" name="pattern" value="action*" />
         <property type="String" name="interceptorName" value="advisor" />
-        <property type="java.lang.Object" name="target" ref="realaction"/>
     </bean>
+
+<!--    <bean id="action" class="org.mini.aop.ProxyFactoryBean">-->
+<!--        <property type="String" name="interceptorName" value="advisor" />-->
+<!--        <property type="java.lang.Object" name="target" ref="realaction"/>-->
+<!--    </bean>-->
+
 
 
 </beans>

@@ -20,7 +20,9 @@ public class HelloWorldBean {
   @Autowired
   UserService userService;
   @Autowired
-  IAction action;
+  IAction action1;
+  @Autowired
+  IAction action2;
 
   @RequestMapping("/test1")
   public String doTest1() {
@@ -83,9 +85,11 @@ public class HelloWorldBean {
 
     //DynamicProxy proxy = new DynamicProxy(action);
     //IAction p = (IAction)proxy.getProxy();
-    System.out.println("action -------------- " + action + "----------------");
 
-    action.doAction();
-    action.doSomething();
+    action1.doAction();
+    action2.doAction();
+    action1.doSomething();
+    action2.doSomething();
+
   }
 }
