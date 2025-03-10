@@ -86,5 +86,6 @@ public class HelloWorldBean {
     System.out.println("action -------------- " + action + "----------------");
 
     action.doAction();
+    action.doSomething();
   }
 }
